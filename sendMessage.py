@@ -50,24 +50,8 @@ last_pos1 = None
 back_last_pos = None
 
 
-# Set up progress bar parameters
-# progress_bar_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)*0.8)
-# progress_bar_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)*0.1)
-# progress_bar_pos = (50, 50)
-# progress_bar_color = (0, 255, 0)
-# frame_count = 0
-# progress_bar_frame_reset = 2
-# progress_bar_fill = 0
 
 
-def get_nose_position():
-    results = pose.process(frame_rgb)
-    if results.pose_landmarks:
-        nose_landmark = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ANKLE.value]
-        x_pixel = int(nose_landmark.x * frame.shape[1])
-        y_pixel = int(nose_landmark.y * frame.shape[0])
-        return x_pixel, y_pixel
-    return None, None
 
 
 def distance(p1, p2):
@@ -93,17 +77,7 @@ def calculate_angle(a, b, c):
     return angle
 
 
-# def start_lift_test():
-#     global start_time, state, pixel_distance, prev_x_pixel, prev_y_pixel
-#     start_time = time.time()
-#     landmarks = results.pose_landmarks.landmark
-#     lefthip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
-#                landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-#     leftshoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
-#                     landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-#     leftknee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x,
-#                 landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
-   
+
 
 
 
@@ -145,7 +119,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             if conf > 0.5:
                 point_count = point_count + 1
 
-        if point_count >= 32:
+        if point_count >= 5:
             full_body_frame_count = full_body_frame_count + 1
             if full_body_frame_count < 30:
                 cv2.putText(frame, "Full Body Visible, Stand straight", (10, 30),
